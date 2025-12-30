@@ -1,0 +1,30 @@
+<h1>Cookies for sale!</h1>
+<p> in store: <span id="in_store">0</span>
+<p> <input id="address" type="text">
+<p> <button id="buy_cookie">buy a cookie</button>
+<p> <span id="cookie_bought"></span>
+
+<script>
+  function refreshCookies() {
+    fetch('/cookie/count')
+      .then((response) => response.text())
+      .then((response) => {
+        in_store.innerHTML = response;
+        if (response == 0) {
+          buy_cookie.disabled = true;
+        }
+      })
+  }
+
+  buy_cookie.onclick = function() {
+    fetch('/cookie/buy?address=' + address.value)
+      .then((response) => response.text())
+      .then((response) => {
+        cookie_bought.innerHTML = response;
+        refreshCookies();
+      })
+  }
+
+  // to display the initial value
+  refreshCookies();
+</script>

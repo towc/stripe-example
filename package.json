@@ -1,0 +1,24 @@
+{
+  "name": "stripe-example",
+  "version": "1.0.0",
+  "description": "inspired by: https://docs.stripe.com/payments/quickstart",
+  "homepage": "https://github.com/towc/stripe-example#readme",
+  "bugs": {
+    "url": "https://github.com/towc/stripe-example/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/towc/stripe-example.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "stripe": "^20.1.0"
+  }
+}

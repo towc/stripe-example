@@ -1,0 +1,64 @@
+<h1>Cookies for sale!</h1>
+<p> in store: <span id="in_store">0</span>
+<div id="stripe_form"></div>
+<p> <button id="buy_cookie">buy a cookie</button>
+<p> <span id="cookie_bought"></span>
+
+<script src="https://js.stripe.com/clover/stripe.js"></script>
+<script>
+  const stripe = Stripe('pk_test_51ScuUj6pLKtybe8NQwcnabsHCUD4VK7bGBobZ0Rjti7bZAVRMHM5zNPbpi3JhPsUQGaxdVa9Rh2ZGl02HbMxM3cs00pMGKGO6P');
+
+  let stripeElements;
+
+  // set up payment screen according to server indications
+  fetch('/cookie/purchase-details')
+    .then((res) => res.text())
+    .then((res) => {
+      if (res.startsWith('ERROR')) {
+        stripe_form.innerHTMl = res;
+      } else {
+        stripeElements = stripe.elements({
+          appearence: { theme: 'stripe' },
+          clientSecret: res,
+        });
+
+        stripeElements
+          .create('payment', { layout: 'accordion' })
+          .mount(stripe_form);
+      }
+    })
+
+  buy_cookie.onclick = function() {
+    buy_cookie.innerHTML = 'loading...';
+    buy_cookie.disabled = true;
+
+    // we no longer go to our servers, but tell stripe about it.
+    // Stripe then handles our redirection
+    stripe.confirmPayment({
+      elements: stripeElements,
+      confirmParams: {
+        // get redirected to the same page, with additional information
+        return_url: 'http://localhost:3000/?message=purchase complete!'
+      }
+    })
+  }
+
+  // display cookies left.
+  // no need to refresh anymore, the page is reloaded after purchase, and this code will run again.
+  fetch('/cookie/count')
+    .then((response) => response.text())
+    .then((response) => {
+      in_store.innerHTML = response;
+      if (response == 0) {
+        buy_cookie.disabled = true;
+      }
+    })
+
+  // display a message if one is present
+  const url = new URL(window.location.href);
+  if (url.searchParams.get('message')) {
+    alert(url.searchParams.get('message'));
+    // remove the message from the url
+    window.history.pushState({}, null, 'http://localhost:3000/');
+  }
+</script>
