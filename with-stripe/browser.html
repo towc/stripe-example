@@ -15,7 +15,7 @@
     .then((res) => res.text())
     .then((res) => {
       if (res.startsWith('ERROR')) {
-        stripe_form.innerHTMl = res;
+        stripe_form.textContent = res;
       } else {
         stripeElements = stripe.elements({
           appearence: { theme: 'stripe' },
@@ -29,7 +29,7 @@
     })
 
   buy_cookie.onclick = function() {
-    buy_cookie.innerHTML = 'loading...';
+    buy_cookie.textContent = 'loading...';
     buy_cookie.disabled = true;
 
     // we no longer go to our servers, but tell stripe about it.
@@ -48,7 +48,7 @@
   fetch('/cookie/count')
     .then((response) => response.text())
     .then((response) => {
-      in_store.innerHTML = response;
+      in_store.textContent = response;
       if (response == 0) {
         buy_cookie.disabled = true;
       }

@@ -9,7 +9,7 @@
     fetch('/cookie/count')
       .then((response) => response.text())
       .then((response) => {
-        in_store.innerHTML = response;
+        in_store.textContent = response;
         if (response == 0) {
           buy_cookie.disabled = true;
         }
@@ -20,7 +20,7 @@
     fetch('/cookie/buy?address=' + address.value)
       .then((response) => response.text())
       .then((response) => {
-        cookie_bought.innerHTML = response;
+        cookie_bought.textContent = response;
         refreshCookies();
       })
   }

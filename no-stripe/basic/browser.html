@@ -6,12 +6,12 @@
 <script>
   let cookies = 10;
 
-  in_store.innerHTML = cookies;
+  in_store.textContent = cookies;
 
   buy_cookie.onclick = function() {
     cookies -= 1;
 
-    in_store.innerHTML = cookies;
+    in_store.textContent = cookies;
 
     if (cookies === 0) {
       buy_cookie.disabled = true;
